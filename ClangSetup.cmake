@@ -93,6 +93,10 @@ message("CLANG STATUS:
 
 include_directories(SYSTEM "${LLVM_INCLUDE_DIRS};${CLANG_INCLUDE_DIRS}")
 
+function(clang_config TARGET)
+    # Backwards compatability
+endfunction()
+
 #===============================================================================
 # 3. ADDITIONAL CONFIGURATION
 #===============================================================================
