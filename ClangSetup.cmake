@@ -91,10 +91,14 @@ message("CLANG STATUS:
   Includes (llvm)     ${LLVM_INCLUDE_DIRS}"
 )
 
-function(clang_config TARGET)
-  target_compile_definitions(${TARGET} PRIVATE -DCLANG_INCLUDE_PATHS="${Clang_INCLUDE_PATHS}")
-  target_include_directories(${TARGET} PRIVATE ${CLANG_INCLUDE_DIRS} ${LLVM_INCLUDE_DIRS})
-  target_link_libraries(${TARGET} PRIVATE clang-cpp)
+include_directories(SYSTEM "${LLVM_INCLUDE_DIRS};${CLANG_INCLUDE_DIRS}")
 
-  llvm_config(${TARGET} USE_SHARED option)
-endfunction()
+#===============================================================================
+# 3. ADDITIONAL CONFIGURATION
+#===============================================================================
+
+# LLVM/Clang is normally built without RTTI. Be consistent with that.
+if(NOT LLVM_ENABLE_RTTI)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-rtti")
+endif()
+
